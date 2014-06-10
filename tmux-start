@@ -1,0 +1,28 @@
+#!/bin/bash
+
+tmux start-server
+
+tmux new-session -d -s work
+tmux new-window -t work:0 -k -n vm
+tmux new-window -t work:1 -k -n temp
+tmux send-keys -t work:0 "cd $HOME; ssh caprm" enter
+tmux send-keys -t work:1 "cd $HOME" enter
+
+tmux select-window -t work:0
+
+tmux new-session -d -s stuff
+tmux new-window -t stuff:0 -k -n adn
+tmux new-window -t stuff:1 -k -n tty
+tmux new-window -t stuff:2 -k -n irc
+tmux new-window -t stuff:3 -k -n tunnel
+tmux new-window -t stuff:4 -k -n temp
+tmux send-keys -t stuff:0 "adn" enter
+tmux send-keys -t stuff:1 "ttyt" enter
+tmux send-keys -t stuff:2 "weechat" enter
+tmux send-keys -t stuff:3 "ssh -L 7000:irc.freenode.net:6667 dig" enter
+tmux send-keys -t stuff:4 ""
+
+tmux select-window -t stuff:0
+
+tmux attach-session -t stuff
+
