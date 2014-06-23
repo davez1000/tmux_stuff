@@ -2,27 +2,35 @@
 
 tmux start-server
 
+# "work" session
 tmux new-session -d -s work
 tmux new-window -t work:0 -k -n vm
 tmux new-window -t work:1 -k -n temp
-tmux send-keys -t work:0 "cd $HOME; ssh caprm" enter
-tmux send-keys -t work:1 "cd $HOME" enter
-
+tmux send-keys -t work:0 "cd $HOME; ssh caprm"
+tmux send-keys -t work:1 "cd $HOME"
 tmux select-window -t work:0
 
+# "stuff" session
 tmux new-session -d -s stuff
-tmux new-window -t stuff:0 -k -n adn
-tmux new-window -t stuff:1 -k -n tty
-tmux new-window -t stuff:2 -k -n irc
-tmux new-window -t stuff:3 -k -n tunnel
-tmux new-window -t stuff:4 -k -n temp
-tmux send-keys -t stuff:0 "adn" enter
-tmux send-keys -t stuff:1 "ttyt" enter
-tmux send-keys -t stuff:2 "weechat" enter
-tmux send-keys -t stuff:3 "ssh -L 7000:irc.freenode.net:6667 dig" enter
-tmux send-keys -t stuff:4 ""
+tmux new-window -t stuff:0 -k -n "adn & tty"
+# split window vertically for 'adn & tty'
+tmux split-window -t stuff:0 -v
+# send command for bottom pane (selected by default after splitting)
+tmux send-keys 'ttyt' enter
+# switch back to top pane
+tmux select-pane -t stuff:0 -U
+# now send command for top pane
+tmux send-keys 'adn' enter
 
+tmux new-window -t stuff:1 -k -n xxx
+tmux new-window -t stuff:2 -k -n irc
+tmux new-window -t stuff:3 -k -n docker
+tmux new-window -t stuff:4 -k -n tunnel
+tmux new-window -t stuff:5 -k -n temp
+tmux send-keys -t stuff:1 "xxx"
+tmux send-keys -t stuff:2 "weechat"
+tmux send-keys -t stuff:3 "ssh -L 7000:irc.freenode.net:6667 linode"
+tmux send-keys -t stuff:4 ""
 tmux select-window -t stuff:0
 
 tmux attach-session -t stuff
-
