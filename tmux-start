@@ -33,11 +33,20 @@ tmux send-keys 'adn' enter
 tmux new-window -t stuff:1 -k -n temp1
 tmux new-window -t stuff:2 -k -n irc
 tmux new-window -t stuff:3 -k -n docker
+# split window vertically for 'docker'
+tmux split-window -t stuff:3 -v
+# send command for bottom pane (selected by default after splitting)
+# tmux send-keys '' enter
+# switch back to top pane
+tmux select-pane -t stuff:3 -U
+# now send command for top pane
+# tmux send-keys '' enter
+
 tmux new-window -t stuff:4 -k -n tunnel
 tmux new-window -t stuff:5 -k -n temp2
 tmux send-keys -t stuff:1 ""
 tmux send-keys -t stuff:2 "weechat"
-tmux send-keys -t stuff:3 ""
+# tmux send-keys -t stuff:3 ""
 tmux send-keys -t stuff:4 "ssh -L 7000:irc.freenode.net:6667 linode"
 tmux select-window -t stuff:0
 
