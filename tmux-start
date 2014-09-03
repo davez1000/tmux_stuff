@@ -1,53 +1,11 @@
 #!/bin/bash
 
+script_path="$HOME/tmux_scripts"
+
 tmux start-server
 
-# "work" session
-tmux new-session -d -s work
-tmux new-window -t work:0 -k -n vm
-# split window vertically for 'vm'
-tmux split-window -t work:0 -h
-# send command for right pane (selected by default after splitting)
-tmux send-keys "cd $HOME; ssh caprm" enter
-# switch back to left pane
-tmux select-pane -t work:0 -L
-# now send command to left pane
-tmux send-keys "cd $HOME; ssh caprm" enter
+source ${script_path}/tmux_session_work
+source ${script_path}/tmux_session_ttyt
+#source ${script_path}/tmux_session_stuff
 
-tmux new-window -t work:1 -k -n temp
-tmux send-keys -t work:1 "cd $HOME"
-tmux select-window -t work:0
-
-# "stuff" session
-tmux new-session -d -s stuff
-tmux new-window -t stuff:0 -k -n "adn & tty"
-# split window vertically for 'adn & tty'
-tmux split-window -t stuff:0 -v
-# send command for bottom pane (selected by default after splitting)
-tmux send-keys 'ttyt' enter
-# switch back to top pane
-tmux select-pane -t stuff:0 -U
-# now send command for top pane
-tmux send-keys 'adn' enter
-
-tmux new-window -t stuff:1 -k -n temp1
-tmux new-window -t stuff:2 -k -n irc
-tmux new-window -t stuff:3 -k -n docker
-# split window vertically for 'docker'
-tmux split-window -t stuff:3 -v
-# send command for bottom pane (selected by default after splitting)
-# tmux send-keys '' enter
-# switch back to top pane
-tmux select-pane -t stuff:3 -U
-# now send command for top pane
-# tmux send-keys '' enter
-
-tmux new-window -t stuff:4 -k -n tunnel
-tmux new-window -t stuff:5 -k -n temp2
-tmux send-keys -t stuff:1 ""
-tmux send-keys -t stuff:2 "weechat"
-# tmux send-keys -t stuff:3 ""
-tmux send-keys -t stuff:4 "ssh -L 7000:irc.freenode.net:6667 linode"
-tmux select-window -t stuff:0
-
-tmux attach-session -t stuff
+tmux attach-session -t ttyt

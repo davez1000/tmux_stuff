@@ -1,0 +1,15 @@
+# "work" session
+tmux new-session -d -s work
+tmux new-window -t work:0 -k -n vm
+# split window vertically for 'vm'
+tmux split-window -t work:0 -h
+# send command for right pane (selected by default after splitting)
+tmux send-keys "cd $HOME; ssh caprm"
+# switch back to left pane
+tmux select-pane -t work:0 -L
+# now send command to left pane
+tmux send-keys "cd $HOME; ssh caprm"
+
+tmux new-window -t work:1 -k -n temp
+tmux send-keys -t work:1 "cd $HOME"
+tmux select-window -t work:0
