@@ -1,9 +1,19 @@
+# set default proxy
+proxy="proxyoff"
+input=($1)	#parse input into array
+
+if [[ ${input[0]} = "work" ]]; then	
+	proxy="proxyon"
+fi
+
+proxy=${proxy}" && "
+
 # "ttytter" session
 tmux new-session -d -s ttyt
 tmux new-window -t ttyt:0 -k -n "adn"
 tmux new-window -t ttyt:1 -k -n "tonza"
 tmux new-window -t ttyt:2 -k -n "bokky"
-tmux send-keys -t ttyt:0 "adn" enter
-tmux send-keys -t ttyt:1 "ttyt" enter
-tmux send-keys -t ttyt:2 "ttyt4" enter
+tmux send-keys -t ttyt:0 ${proxy}"adn" enter
+tmux send-keys -t ttyt:1 ${proxy}"ttyt" enter
+tmux send-keys -t ttyt:2 ${proxy}"ttyt4" enter
 tmux select-window -t ttyt:0
